@@ -12,6 +12,8 @@ Future<void> addPlanner(Planner value) async {
   plannerdb.put(value.id, value);
   plannerNotifier.value.add(value);
   plannerNotifier.notifyListeners();
+  print('data');
+  print('data');
 }
 
 //upadating values
