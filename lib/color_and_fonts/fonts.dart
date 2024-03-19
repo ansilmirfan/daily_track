@@ -1,13 +1,13 @@
-import 'dart:ui';
-
 // ignore: implementation_imports
 import 'package:flutter/material.dart';
-import 'package:flutter/src/painting/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-TextStyle robotoL = GoogleFonts.roboto(fontSize: 20);
-TextStyle robotoM = GoogleFonts.roboto(fontSize: 18);
-TextStyle robotoX = GoogleFonts.roboto(fontSize: 40, color: Colors.red,);
+TextStyle robotoL = GoogleFonts.roboto(fontSize: 20.0);
+TextStyle robotoM = GoogleFonts.roboto(fontSize: 18.0);
+TextStyle robotoX = GoogleFonts.roboto(
+  fontSize: 40.0,
+  color: Colors.red,
+);
 List fonts = [
   (double size, Color color) =>
       GoogleFonts.roboto(color: color, fontSize: size),

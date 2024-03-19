@@ -1,9 +1,11 @@
 // ignore_for_file: camel_case_types
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:diary_app/color_and_fonts/colors.dart';
 import 'package:diary_app/model/Diary.dart';
 import 'package:diary_app/model/Events.dart';
 import 'package:diary_app/model/planner.dart';
+import 'package:diary_app/notification/notification.dart';
 import 'package:diary_app/screens/intro_screens/splash_screen.dart';
 import 'package:diary_app/varibles_and_functions/variables.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ Future<void> main() async {
   await Hive.openBox<Diary>('diarydb');
   await Hive.openBox<Events>('eventsdb');
   await Hive.openBox<Planner>('plannerdb');
+
+  await NotificationServices.initialiseNotiifcation(null);
   runApp(const MyDiary());
 }
 

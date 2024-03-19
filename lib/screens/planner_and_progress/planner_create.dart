@@ -118,7 +118,7 @@ class _CreatePlannerState extends State<CreatePlanner> {
               if (titleController.text.length < 5) {
                 snackbarMessage(
                     context, 'Please enter at least five charecter title');
-              } else if (descriptionController.text.length < 10) {
+              } else if (descriptionController.text.length < 5) {
                 snackbarMessage(context,
                     'please enter at least five charecter description');
               } else {

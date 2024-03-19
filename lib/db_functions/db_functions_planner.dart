@@ -12,7 +12,6 @@ Future<void> addPlanner(Planner value) async {
   plannerdb.put(value.id, value);
   plannerNotifier.value.add(value);
   plannerNotifier.notifyListeners();
-
 }
 
 //upadating values
@@ -55,7 +54,7 @@ Future<void> sortByNamePlanner({bool asc = true}) async {
   plannerNotifier.value.clear();
   plannerNotifier.value = List.from(plannerdb.values)
     ..sort(
-      ((a, b) => a.title.compareTo(b.title)),
+      ((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase())),
     );
   if (asc == false) {
     plannerNotifier.value = plannerNotifier.value.reversed.toList();

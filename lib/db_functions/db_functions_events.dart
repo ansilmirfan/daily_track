@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member, non_constant_identifier_names
 import 'package:diary_app/model/Events.dart';
+import 'package:diary_app/notification/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -13,6 +14,9 @@ Future<void> addEvents(Events event, DateTime selectedDate) async {
     eventNotifier.value[selectedDate] = [];
   }
   eventNotifier.value[selectedDate]!.add(event);
+  if (event.notification) {
+    NotificationServices.initialiseNotiifcation(event);
+  }
   eventNotifier.notifyListeners();
 }
 
@@ -33,6 +37,10 @@ Future<void> updateEvents() async {
 //delete event
 Future<void> deleteEvents(int id) async {
   final eventDb = await Hive.openBox<Events>('eventsdb');
+  Events data = eventDb.get(id)!;
+  if (data.notification) {
+    NotificationServices.cancelNotification(id);
+  }
   eventDb.delete(id);
   updateEvents();
 }
@@ -40,6 +48,12 @@ Future<void> deleteEvents(int id) async {
 //edit event
 Future<void> editEvents(int id, Events value) async {
   final eventDb = await Hive.openBox<Events>('eventsdb');
+  if (value.notification) {
+    NotificationServices.scheduleNotification(value);
+  }
+  if (value.notification == false) {
+    NotificationServices.cancelNotification(value.id!);
+  }
   eventDb.put(id, value);
   updateEvents();
 }
@@ -81,7 +95,6 @@ Future<void> sortByTitleEvent({bool asc = true}) async {
 
 //sort by date
 Future<void> sortByDateEvent({bool asc = true}) async {
-
   final eventdb = await Hive.openBox<Events>('eventsdb');
   eventNotifier.value.clear();
   List<Events> event = List.from(eventdb.values)
