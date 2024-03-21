@@ -145,7 +145,7 @@ class _SettingsState extends State<Settings> {
               ),
               const ListTile(
                 leading: Icon(Icons.layers_outlined),
-                title: Text('Version:1.0.0'),
+                title: Text('Version:1.0.0+1'),
               )
             ],
           ),
