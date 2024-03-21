@@ -61,7 +61,7 @@ class _PlannerState extends State<Planner> {
                   searchplanner(value);
                 },
                 controller: searchController,
-                settingsInAction: false,
+                settingsInAction: true,
               ),
               SliverList(
                 delegate: SliverChildListDelegate(
@@ -102,7 +102,6 @@ class _PlannerState extends State<Planner> {
                               element.date.day == selectedDate!.day,
                         )
                         .toList();
-                   
                   }
                   if (data.isNotEmpty) {
                     if (selectedChipIndex == 0) {

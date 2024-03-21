@@ -117,10 +117,10 @@ class _CreatePlannerState extends State<CreatePlanner> {
             function: () {
               if (titleController.text.length < 5) {
                 snackbarMessage(
-                    context, 'Please enter at least five charecter title');
+                    context, 'Please enter at least five charecter title','warning');
               } else if (descriptionController.text.length < 5) {
                 snackbarMessage(context,
-                    'please enter at least five charecter description');
+                    'please enter at least five charecter description','warning');
               } else {
                 if (widget.edit) {
                   final data = Planner(

@@ -118,7 +118,8 @@ class _UserDetailsState extends State<UserDetails> {
                       circleAvatharBorder =
                           const Color.fromARGB(255, 206, 50, 39);
                     });
-                    snackbarMessage(context, 'Please upload a profile picture');
+                    snackbarMessage(
+                        context, 'Please upload a profile picture', 'warning');
                   }
                   if (key.currentState!.validate() && image != null) {
                     userName = controller.text;

@@ -118,18 +118,20 @@ class _CreatePasswordState extends State<CreatePassword> {
                         if (password1.text == password2.text) {
                           if (password1.text == password ||
                               password2.text == password) {
-                            snackbarMessage(context,
-                                'Sorry! you entered the old password please enter new password ');
+                            snackbarMessage(
+                                context,
+                                'Sorry! you entered the old password please enter new password ',
+                                'warning');
                           } else if (widget.alreadyLoggedIn) {
                             Navigator.of(context).pop();
                             password = password1.text;
                             settingsDb.put('password', '$password');
 
-                            snackbarMessage(
-                                context, 'password updated successfully!');
+                            snackbarMessage(context,
+                                'password updated successfully!', 'success');
                           } else {
-                            snackbarMessage(
-                                context, 'password updated successfully!');
+                            snackbarMessage(context,
+                                'password updated successfully!', 'success');
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => const Password(),
@@ -139,8 +141,10 @@ class _CreatePasswordState extends State<CreatePassword> {
                             settingsDb.put('password', '$password');
                           }
                         } else {
-                          snackbarMessage(context,
-                              'Passwords do not match. Please make sure both passwords are the same');
+                          snackbarMessage(
+                              context,
+                              'Passwords do not match. Please make sure both passwords are the same',
+                              'error');
                         }
                       }
                     },

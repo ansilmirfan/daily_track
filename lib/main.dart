@@ -1,6 +1,4 @@
 // ignore_for_file: camel_case_types
-
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:diary_app/color_and_fonts/colors.dart';
 import 'package:diary_app/model/Diary.dart';
 import 'package:diary_app/model/Events.dart';

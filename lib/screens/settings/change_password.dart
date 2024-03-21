@@ -78,7 +78,7 @@ class _changePasswordState extends State<changePassword> {
                     navigatePushReplacement(context,
                         CreatePassword(alreadyLoggedIn: widget.alreadyloggein));
                   } else {
-                    snackbarMessage(context, '! Wrong password');
+                    snackbarMessage(context, '! Wrong password', 'error');
                   }
                 },
                 text: 'Next',

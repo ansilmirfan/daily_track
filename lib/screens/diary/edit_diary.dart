@@ -50,6 +50,7 @@ class _DiaryEditState extends State<DiaryEdit> {
 
   @override
   Widget build(BuildContext context) {
+    
     bool keyboad = MediaQuery.of(context).viewInsets.bottom != 0;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -305,10 +306,11 @@ class _DiaryEditState extends State<DiaryEdit> {
 
   validate() {
     if (titleController.text.isEmpty) {
-      snackbarMessage(context, 'Error:Title is required.Please enter title');
+      snackbarMessage(
+          context, 'Error:Title is required.Please enter title', 'error');
     } else if (contentController.text.isEmpty) {
       snackbarMessage(
-          context, 'Error:Content is required.Please enter content');
+          context, 'Error:Content is required.Please enter content', 'error');
     } else {
       final value = Diary(
           title: titleController.text.trim(),
@@ -322,7 +324,7 @@ class _DiaryEditState extends State<DiaryEdit> {
       editDiary(value);
       Navigator.of(context).pop(value);
 
-      snackbarMessage(context, 'Diary edited successfully');
+      snackbarMessage(context, 'Diary edited successfully', 'success');
     }
   }
 }

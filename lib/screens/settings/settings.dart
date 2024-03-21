@@ -8,8 +8,9 @@ import 'package:diary_app/screens/intro_screens/user_details.dart';
 import 'package:diary_app/varibles_and_functions/functioins.dart';
 import 'package:diary_app/varibles_and_functions/variables.dart';
 import 'package:diary_app/widgets/common/rating.dart';
-
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -144,7 +145,7 @@ class _SettingsState extends State<Settings> {
               ),
               const ListTile(
                 leading: Icon(Icons.layers_outlined),
-                title: Text('Version:1.2.18.0209'),
+                title: Text('Version:1.0.0'),
               )
             ],
           ),
@@ -152,4 +153,15 @@ class _SettingsState extends State<Settings> {
       ),
     );
   }
+}
+
+Future<String> initPlatformState() async {
+  String platformVersion;
+
+  try {
+    platformVersion = Platform.version;
+  } on PlatformException {
+    platformVersion = 'Failed to get platform version.';
+  }
+  return platformVersion;
 }

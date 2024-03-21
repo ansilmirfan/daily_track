@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-import 'package:diary_app/color_and_fonts/colors.dart';
 import 'package:diary_app/db_functions/db_functions_diary.dart';
 import 'package:diary_app/screens/diary/diary_create.dart';
 import 'package:diary_app/varibles_and_functions/functioins.dart';
@@ -36,8 +35,7 @@ class _HomeState extends State<Home> {
         body: RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(
-              const Duration(seconds: 2
-              ),
+              const Duration(seconds: 2),
             );
             updateDiaryValues();
             selectedDate = null;
@@ -57,6 +55,19 @@ class _HomeState extends State<Home> {
                 },
               ),
               //list
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: 1,
+                  (context, index) => Padding(
+                    padding: const EdgeInsets.only(top: 5, right: 20),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: calenderSearch(
+                          context: context, updateDate: updateSelectedDate),
+                    ),
+                  ),
+                ),
+              ),
 
               SliverToBoxAdapter(
                 child: ValueListenableBuilder(
@@ -96,7 +107,6 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   }
-
                   return SliverList.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -111,28 +121,13 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        floatingActionButton: Wrap(
-          direction: Axis.vertical,
-          spacing: 10,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Container(
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                  color: primaryYellow,
-                  shape: BoxShape.circle,
-                ),
-                child: calenderSearch(
-                    context: context, updateDate: updateSelectedDate)),
-            floatingButton(
-              onpressed: () {
-                navigatePush(
-                  context,
-                  const DiaryCreate(),
-                );
-              },
-            ),
-          ],
+        floatingActionButton: floatingButton(
+          onpressed: () {
+            navigatePush(
+              context,
+              const DiaryCreate(),
+            );
+          },
         ),
       ),
     );

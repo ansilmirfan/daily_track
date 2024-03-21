@@ -21,33 +21,39 @@ class DiaryCreate extends StatefulWidget {
   State<DiaryCreate> createState() => _DiaryCreateState();
 }
 
-File? image;
-
-TextEditingController titleController = TextEditingController();
-TextEditingController contentController = TextEditingController();
-DateTime? dateTime;
-late int bgColorSelected;
-late int textColorSelected;
-late int textStyleSelected;
-
-UndoHistoryController undoController = UndoHistoryController();
-
 // ignore: camel_case_types
 class _DiaryCreateState extends State<DiaryCreate> {
+  File? _image;
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+  DateTime? _dateTime;
+  late int _bgColorSelected;
+  late int _textColorSelected;
+  late int _textStyleSelected;
+  final _undoController = UndoHistoryController();
+
   @override
   void initState() {
     super.initState();
-    dateTime = DateTime.now();
-    titleController.clear();
-    contentController.clear();
-    bgColorSelected = 0;
-    textColorSelected = 3;
-    textStyleSelected = 0;
-    image = null;
+    _dateTime = DateTime.now();
+    _titleController.clear();
+    _contentController.clear();
+    _bgColorSelected = 0;
+    _textColorSelected = 3;
+    _textStyleSelected = 0;
+    _image = null;
   }
 
   @override
   Widget build(BuildContext context) {
+    bool canUndo = _undoController.value.canUndo;
+    bool canRedo = _undoController.value.canRedo;
+    _undoController.addListener(() {
+      setState(() {
+        canUndo = _undoController.value.canUndo;
+        canRedo = _undoController.value.canRedo;
+      });
+    });
     bool keyboad = MediaQuery.of(context).viewInsets.bottom != 0;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -58,15 +64,15 @@ class _DiaryCreateState extends State<DiaryCreate> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           foregroundColor:
-              image == null ? primaryWhite : bgColors[textColorSelected],
+              _image == null ? primaryWhite : bgColors[_textColorSelected],
           title: Wrap(
             children: [
               IconButton(
-                onPressed: () => undoController.undo(),
+                onPressed: canUndo ? () => _undoController.undo() : null,
                 icon: const Icon(Icons.undo_outlined),
               ),
               IconButton(
-                onPressed: () => undoController.redo(),
+                onPressed: canRedo ? () => _undoController.redo() : null,
                 icon: const Icon(Icons.redo),
               )
             ],
@@ -89,12 +95,12 @@ class _DiaryCreateState extends State<DiaryCreate> {
               height: height / 3,
               decoration: BoxDecoration(
                 color: secondaryBlack,
-                image: image == null
+                image: _image == null
                     ? null
                     : DecorationImage(
                         fit: BoxFit.cover,
                         image: FileImage(
-                          image!,
+                          _image!,
                         ),
                       ),
               ),
@@ -114,9 +120,9 @@ class _DiaryCreateState extends State<DiaryCreate> {
                           width: width / 2 - 10,
                           //title
                           child: TextField(
-                            controller: titleController,
-                            style: fonts[textStyleSelected](
-                                25.0, bgColors[textColorSelected]),
+                            controller: _titleController,
+                            style: fonts[_textStyleSelected](
+                                25.0, bgColors[_textColorSelected]),
                             decoration: const InputDecoration(
                                 hintText: 'Title',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -129,19 +135,20 @@ class _DiaryCreateState extends State<DiaryCreate> {
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(
                           onTap: () async {
-                            dateTime =
+                            _dateTime =
                                 await initialiseDate(context) ?? DateTime.now();
                             setState(() {
-                              dateTime;
+                              _dateTime;
                             });
                           },
                           child: Text(
-                            DateFormat('dd MMM yyyy hh:mm a').format(dateTime!),
-                            style: fonts[textStyleSelected](
+                            DateFormat('dd MMM yyyy hh:mm a')
+                                .format(_dateTime ?? DateTime.now()),
+                            style: fonts[_textStyleSelected](
                                 15.0,
-                                textColorSelected == 3
+                                _textColorSelected == 3
                                     ? primaryWhite
-                                    : bgColors[textColorSelected]),
+                                    : bgColors[_textColorSelected]),
                           ),
                         ),
                       ),
@@ -153,15 +160,15 @@ class _DiaryCreateState extends State<DiaryCreate> {
             //content
             Expanded(
               child: Container(
-                color: bgColors[bgColorSelected],
+                color: bgColors[_bgColorSelected],
                 child: Padding(
                   padding: paddingXS,
                   child: TextField(
-                    controller: contentController,
-                    undoController: undoController,
+                    controller: _contentController,
+                    undoController: _undoController,
                     maxLines: 20,
-                    style: fonts[textStyleSelected](
-                        18.0, bgColors[textColorSelected]),
+                    style: fonts[_textStyleSelected](
+                        18.0, bgColors[_textColorSelected]),
                     decoration: const InputDecoration(
                         hintText: 'Content', border: InputBorder.none),
                   ),
@@ -253,19 +260,19 @@ class _DiaryCreateState extends State<DiaryCreate> {
 
   void updateSelectedBgColor(int index) {
     setState(() {
-      bgColorSelected = index;
+      _bgColorSelected = index;
     });
   }
 
   void updateSlectedFontColor(int index) {
     setState(() {
-      textColorSelected = index;
+      _textColorSelected = index;
     });
   }
 
   void updateSelectedFont(int index) {
     setState(() {
-      textStyleSelected = index;
+      _textStyleSelected = index;
     });
   }
 
@@ -274,29 +281,32 @@ class _DiaryCreateState extends State<DiaryCreate> {
 
     if (pickedFile != null) {
       setState(() {
-        image = File(pickedFile.path);
+        _image = File(pickedFile.path);
       });
     }
   }
 
   void validate() {
-    if (image == null) {
-      snackbarMessage(context,
-          'Error: Image is required. Please upload or select an image to proceed');
-    } else if (titleController.text.isEmpty) {
-      snackbarMessage(context, 'Error:Title is required.Please enter title');
-    } else if (contentController.text.isEmpty) {
+    if (_image == null) {
       snackbarMessage(
-          context, 'Error:Content is required.Please enter content');
+          context,
+          'Error: Image is required. Please upload or select an image to proceed',
+          'error');
+    } else if (_titleController.text.isEmpty) {
+      snackbarMessage(
+          context, 'Error:Title is required.Please enter title', 'error');
+    } else if (_contentController.text.isEmpty) {
+      snackbarMessage(
+          context, 'Error:Content is required.Please enter content', 'error');
     } else {
       final value = Diary(
-        title: titleController.text.trim(),
-        content: contentController.text,
-        dateTime: dateTime!,
-        font: textStyleSelected,
-        fontcolor: textColorSelected,
-        bgcolor: bgColorSelected,
-        imgpath: image!.path,
+        title: _titleController.text.trim(),
+        content: _contentController.text,
+        dateTime: _dateTime!,
+        font: _textStyleSelected,
+        fontcolor: _textColorSelected,
+        bgcolor: _bgColorSelected,
+        imgpath: _image!.path,
       );
       addDiary(value);
 

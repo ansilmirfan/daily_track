@@ -35,6 +35,7 @@ class _ProgressState extends State<Progress> {
         slivers: [
           SilvarBar(
             searchbar: false,
+            settingsInAction: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate(

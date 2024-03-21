@@ -50,8 +50,7 @@ Future<void> editEvents(int id, Events value) async {
   final eventDb = await Hive.openBox<Events>('eventsdb');
   if (value.notification) {
     NotificationServices.scheduleNotification(value);
-  }
-  if (value.notification == false) {
+  } else {
     NotificationServices.cancelNotification(value.id!);
   }
   eventDb.put(id, value);

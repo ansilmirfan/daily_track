@@ -65,7 +65,7 @@ class _PasswordState extends State<Password> {
                     if (controller.text == password) {
                       navigatePushReplacement(context, const BottomNav());
                     } else {
-                      snackbarMessage(context, 'Wrong password');
+                      snackbarMessage(context, 'Wrong password', 'error');
                     }
                   },
                   text: 'Submit',
