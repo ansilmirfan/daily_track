@@ -36,6 +36,7 @@ class _CreatePlannerState extends State<CreatePlanner> {
       category = widget.planner!.category;
     } else {
       titleController.clear();
+      descriptionController.clear();
       category = 'Other';
     }
   }
@@ -116,11 +117,13 @@ class _CreatePlannerState extends State<CreatePlanner> {
           textButtonWidget(
             function: () {
               if (titleController.text.length < 5) {
-                snackbarMessage(
-                    context, 'Please enter at least five charecter title','warning');
-              } else if (descriptionController.text.length < 5) {
                 snackbarMessage(context,
-                    'please enter at least five charecter description','warning');
+                    'Please enter at least five charecter title', 'warning');
+              } else if (descriptionController.text.length < 5) {
+                snackbarMessage(
+                    context,
+                    'please enter at least five charecter description',
+                    'warning');
               } else {
                 if (widget.edit) {
                   final data = Planner(

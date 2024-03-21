@@ -29,6 +29,7 @@ List<String> category = [
   'Lifestyle',
   'Other'
 ];
+bool isBottomSheetOpen = false;
 DateTime? selectedDate;
 
 class _PlannerState extends State<Planner> {
@@ -126,14 +127,21 @@ class _PlannerState extends State<Planner> {
                         padding: paddingXS,
                         child: slidableWidget(
                           delete: () => deletePlanner(data[index].id!),
-                          edit: () => showBottomSheet(
-                            context: context,
-                            builder: (context) => CreatePlanner(
-                              edit: true,
-                              planner: data[index],
+                          edit: () {
+                            showBottomSheet(
                               context: context,
-                            ),
-                          ),
+                              builder: (context) => CreatePlanner(
+                                edit: true,
+                                planner: data[index],
+                                context: context,
+                              ),
+                            ).closed.whenComplete(() => setState(() {
+                                  isBottomSheetOpen = false;
+                                }));
+                            setState(() {
+                              isBottomSheetOpen = true;
+                            });
+                          },
                           child: plannerList(
                             planner: data[index],
                           ),
@@ -146,15 +154,18 @@ class _PlannerState extends State<Planner> {
             ],
           ),
         ),
-        floatingActionButton: floatingButton(
-          onpressed: () {
-            showBottomSheet(
-              context: context,
-              builder: (context) => CreatePlanner(
+        floatingActionButton: Visibility(
+          visible: !isBottomSheetOpen,
+          child: floatingButton(
+            onpressed: () {
+              showBottomSheet(
                 context: context,
-              ),
-            );
-          },
+                builder: (context) => CreatePlanner(
+                  context: context,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
