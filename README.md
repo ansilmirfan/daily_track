@@ -3,6 +3,9 @@
 ## Description
 Daily Trac is a Flutter application designed to help users track their daily activities and tasks efficiently. With intuitive features and a user-friendly interface, Daily Trac aims to simplify task management and improve productivity. Whether it's tracking daily routines, setting reminders, or managing to-do lists, Daily Trac is your go-to companion for staying organized and on top of your daily tasks.
 
+## 📥 Download the App
+[Download on Amazone Appstore]( https://www.amazon.com/dp/B0CW1CXTP6/ref=apps_sf_sta )
+
 ## Features
 - **Notifications:** Receive timely reminders and alerts to stay on track with your tasks and activities.
 - **Diary/Calendar:** Keep track of important events, appointments, and notes using the built-in diary and calendar functionality.
