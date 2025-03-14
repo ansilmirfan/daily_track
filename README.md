@@ -22,5 +22,8 @@ Daily Trac is built using Flutter, a popular open-source UI software development
 ## 📥 Download the App
 [Download on Amazone Appstore]( https://www.amazon.com/dp/B0CW1CXTP6/ref=apps_sf_sta )
 
+## [Watch Video](https://drive.google.com/file/d/1PkBZi0N3MIFC0J6cueAk-701WZ56m9oQ/view?usp=drivesdk)
+
+
 
 
